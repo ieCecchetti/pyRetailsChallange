@@ -1,11 +1,15 @@
 import unittest
 from unittest import mock
-
 from service.mongo_service import MongoService
 import pandas as pd
 
 
 class TestMongoService(unittest.TestCase):
+    def test_static_class(self):
+        # static class: constructor must not be called
+        with self.assertRaises(RuntimeError):
+            x = MongoService()
+
     def test_mongo_connect(self):
         # test connection without db name -> raise RuntimeError
         self.assertIsNone(MongoService.mongo_connect(None, "test"))
@@ -20,7 +24,6 @@ class TestMongoService(unittest.TestCase):
         # test connection with wrong data(:port)
         self.assertIsNotNone(MongoService.mongo_connect("test", "online_retail", "localhost", 27017))
 
-
     @mock.patch("pymongo.MongoClient")
     def test_mongo_import(self, mock_pymongo):
         data = []
@@ -29,3 +32,7 @@ class TestMongoService(unittest.TestCase):
         self.assertFalse(MongoService.mongo_import(None, data))
         # test connection without collection name -> raise RuntimeError
         self.assertFalse(MongoService.mongo_import(mock_pymongo.initialize(), None))
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,10 +1,8 @@
 # This is a the coding challange script.
-import colorsys
-
 from service.mongo_service import MongoService as ms
 from service.csv_service import CsvService as cs
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import sum, col, avg, collect_set
+from pyspark.sql.functions import sum, col, avg
 import matplotlib.pyplot as plt
 from itertools import repeat
 import numpy as np
@@ -29,16 +27,6 @@ def set_logger():
     logger.addHandler(file_handler)
     logger.addHandler(stdout_handler)
     return logger
-
-
-def get_n_colors(n=5):
-    """ Generate a list on N color in output (for graph)"""
-    hsv_tuples = [(x * 1.0 / n, 0.5, 0.5) for x in range(n)]
-    hex_out = []
-    for rgb in hsv_tuples:
-        rgb = map(lambda x: int(x * 255), colorsys.hsv_to_rgb(*rgb))
-        hex_out.append('#%02x%02x%02x' % tuple(rgb))
-    return hex_out
 
 
 def print_hist(x, y, nation, as_grid=True):
